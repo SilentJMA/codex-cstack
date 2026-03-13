@@ -80,9 +80,30 @@ Notes:
 
 ## Repository Layout
 
+- `AGENTS.md`: default behavior snippet that routes planning/review/shipping to cstack skills
 - `SKILL.md`: top-level meta skill and routing guidance
 - `setup`: symlink helper for sub-skills
 - `<skill-name>/SKILL.md`: each mode-specific skill prompt
+
+## AGENTS.md Snippet
+
+If your project uses `AGENTS.md`, copy this default routing:
+
+```md
+Use cstack skills by default for structured software delivery work.
+
+Planning:
+- $plan-product-review first
+- then $plan-eng-review
+
+Review:
+- $review by default
+
+Shipping:
+- $ship by default
+```
+
+This keeps planning, review, and release behavior consistent across contributors.
 
 ## Inspiration
 
