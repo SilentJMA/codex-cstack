@@ -4,24 +4,56 @@
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1F6FEB?style=flat-square)](https://github.com/SilentJMA/codex-cstack)
 [![License](https://img.shields.io/badge/license-MIT-16A34A?style=flat-square)](./LICENSE)
 
-`cstack` is a Codex workflow skill pack inspired by [gstack](https://github.com/garrytan/gstack).
+**cstack turns Codex from one generic assistant into a set of explicit delivery modes.**
 
-It gives Codex explicit modes so you can switch between product thinking, technical planning, review rigor, release execution, QA, and retrospectives.
+Inspired by [gstack](https://github.com/garrytan/gstack), this pack gives you clear workflow gears for planning, engineering design, review, release, QA, and retrospectives.
 
-## Included Skills
+## Why cstack
 
-- `plan-product-review`
-- `plan-eng-review`
-- `review`
-- `ship`
-- `qa`
-- `retro`
+Without explicit modes, requests blur together:
 
-## Quick Start
+- product planning gets mixed with implementation details
+- review quality varies by prompt quality
+- shipping can drift into open-ended discussion
 
-1. Clone this repo into your Codex skills directory.
-2. Run `setup` once.
-3. Trigger skills by name in your prompts.
+With cstack, you pick the right mode for the phase and get more consistent output quality.
+
+## Modes
+
+| Skill | Mode | What it does |
+|---|---|---|
+| `plan-product-review` | Product strategy | Reframes the request around user outcomes and sharp v1 scope. |
+| `plan-eng-review` | Technical design | Produces architecture, edge cases, risks, and test matrix before coding. |
+| `review` | Production reviewer | Prioritizes bugs, regressions, trust boundaries, and missing tests. |
+| `ship` | Release execution | Checks merge readiness, validation status, and remaining blockers. |
+| `qa` | Validation lead | Runs quick/standard/full test scopes with evidence and confidence level. |
+| `retro` | Continuous improvement | Captures wins, pain points, and concrete next-cycle improvements. |
+
+## Example Flow
+
+```text
+You: Use $plan-product-review for this feature idea.
+Codex: Clarifies user job, defines v1, surfaces product risks.
+
+You: Now run $plan-eng-review.
+Codex: Architecture + failure modes + test plan + execution order.
+
+You: Implement.
+
+You: Run $review on current changes.
+Codex: Lists high-risk findings first with concrete file references.
+
+You: Apply fixes.
+
+You: Use $ship.
+Codex: Reports ship-readiness, checks run, and any blockers.
+
+You: Run $qa quick.
+Codex: Smoke coverage + evidence + confidence recommendation.
+
+You: Run $retro.
+Codex: What worked, what hurt, and what to improve next.
+```
 
 ## Installation
 
@@ -54,7 +86,7 @@ git clone https://github.com/SilentJMA/codex-cstack.git (Join-Path $skills "csta
 wsl bash -lc 'cd "$CODEX_HOME/skills/cstack" && chmod +x setup && ./setup'
 ```
 
-### Windows (Git Bash / WSL direct)
+### Windows (Git Bash / WSL)
 
 ```bash
 mkdir -p "$CODEX_HOME/skills"
@@ -66,28 +98,12 @@ chmod +x setup
 
 Notes:
 
-- On Windows, WSL is recommended for best compatibility with the `setup` script.
-- If symlink creation is restricted, enable Developer Mode or run the terminal with elevated permissions.
+- WSL is recommended on Windows for best compatibility.
+- If symlinks fail, enable Windows Developer Mode or run terminal as Administrator.
 
-## Usage Examples
+## AGENTS.md Default Snippet
 
-- `Use $plan-product-review for this feature request.`
-- `Run $plan-eng-review and give me architecture + test matrix.`
-- `Do a $review and list findings by severity.`
-- `Use $ship mode and verify merge readiness.`
-- `Run $qa in quick mode for this fix.`
-- `Create a $retro for this delivery.`
-
-## Repository Layout
-
-- `AGENTS.md`: default behavior snippet that routes planning/review/shipping to cstack skills
-- `SKILL.md`: top-level meta skill and routing guidance
-- `setup`: symlink helper for sub-skills
-- `<skill-name>/SKILL.md`: each mode-specific skill prompt
-
-## AGENTS.md Snippet
-
-If your project uses `AGENTS.md`, copy this default routing:
+If your project uses `AGENTS.md`, add this:
 
 ```md
 Use cstack skills by default for structured software delivery work.
@@ -103,11 +119,27 @@ Shipping:
 - $ship by default
 ```
 
-This keeps planning, review, and release behavior consistent across contributors.
+This keeps behavior consistent across contributors and sessions.
+
+## Usage Prompts
+
+- `Use $plan-product-review for this request before coding.`
+- `Run $plan-eng-review and include architecture plus test matrix.`
+- `Do a $review and list findings by severity.`
+- `Use $ship and tell me if this branch is merge-ready.`
+- `Run $qa in standard mode for this feature.`
+- `Create a $retro for this delivery.`
+
+## Repository Layout
+
+- `AGENTS.md`: default routing guidance for planning/review/shipping
+- `SKILL.md`: meta skill with selection guide
+- `setup`: symlink helper for sub-skills
+- `<skill>/SKILL.md`: mode-specific instructions
 
 ## Inspiration
 
-This project adapts the workflow concept from [gstack](https://github.com/garrytan/gstack) for Codex skill triggering.
+cstack is inspired by gstack's explicit workflow model and adapted for Codex-native skill triggering.
 
 ## License
 
