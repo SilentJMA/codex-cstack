@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+STACK_DIR="$(cd "$(dirname "$0")" && pwd)"
+SKILLS_DIR="$(dirname "$STACK_DIR")"
+
+linked=()
+for skill_dir in "$STACK_DIR"/*/; do
+  [ -d "$skill_dir" ] || continue
+  skill_name="$(basename "$skill_dir")"
+  [ -f "$skill_dir/SKILL.md" ] || continue
+
+  target="$SKILLS_DIR/$skill_name"
+  if [ -L "$target" ] || [ ! -e "$target" ]; then
+    ln -snf "cstack/$skill_name" "$target"
+    linked+=("$skill_name")
+  fi
+done
+
+echo "cstack ready."
+if [ ${#linked[@]} -gt 0 ]; then
+  echo "linked skills: ${linked[*]}"
+else
+  echo "no new symlinks created (existing paths kept)."
+fi
